@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do Dado ao Diagnóstico — Visão 4.0</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .slide {
+            background: white;
+            width: 1200px;
+            max-width: 100%;
+            min-height: 800px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 42px;
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header .subtitle {
+            font-size: 24px;
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            flex: 1;
+        }
+
+        .section {
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 30px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .section.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .section h2 {
+            font-size: 28px;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section h2::before {
+            content: '';
+            width: 4px;
+            height: 28px;
+            background: #667eea;
+            border-radius: 2px;
+        }
+
+        .section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .section li {
+            padding: 12px 0;
+            padding-left: 30px;
+            position: relative;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4a5568;
+        }
+
+        .section li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .section p {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #4a5568;
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #667eea15 0%, #764ba215 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 2px solid #667eea30;
+        }
+
+        .highlight strong {
+            color: #667eea;
+            font-size: 18px;
+        }
+
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .flow-step {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            min-width: 150px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e2e8f0;
+        }
+
+        .flow-step .step-number {
+            background: #667eea;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+            font-size: 20px;
+        }
+
+        .flow-step .step-title {
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+
+        .flow-step .step-desc {
+            font-size: 12px;
+            color: #718096;
+        }
+
+        .arrow {
+            color: #667eea;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #718096;
+            font-size: 14px;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 20px;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .slide {
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            .slide {
+                padding: 30px;
+            }
+            .header h1 {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slide">
+        <div class="header">
+            <h1>Do Dado ao Diagnóstico</h1>
+            <div class="subtitle">Visão 4.0 — Processamento de Sinais de Vibração</div>
+        </div>
+
+        <div class="content">
+            <!-- Sensores Inteligentes e Edge Computing -->
+            <div class="section">
+                <h2>Sensores Inteligentes e Edge Computing</h2>
+                <p>A coleta de dados de vibração em tempo real é fundamental para monitoramento industrial.</p>
+                <ul>
+                    <li><strong>Coleta contínua:</strong> Sensores aceleração/vibração em 24/7</li>
+                    <li><strong>Processamento local:</strong> Edge computing reduz latência e custo de transmissão</li>
+                    <li><strong>Features em tempo real:</strong> RMS, Crest Factor, Kurtosis calculados localmente</li>
+                    <li><strong>Transmissão eficiente:</strong> Apenas indicadores numéricos, não o sinal completo</li>
+                </ul>
+                <div class="highlight">
+                    <strong>Vantagem:</strong> Redução de até 99% no volume de dados transmitidos, mantendo a informação crítica.
+                </div>
+            </div>
+
+            <!-- Manutenção Preditiva e Digital Twin -->
+            <div class="section">
+                <h2>Manutenção Preditiva e Digital Twin</h2>
+                <p>Análise espectral e features permitem modelagem preditiva do equipamento.</p>
+                <ul>
+                    <li><strong>Detecção precoce:</strong> FFT identifica frequências de falhas (BPFO, BPFI, BSF)</li>
+                    <li><strong>Modelo preditivo:</strong> ML classifica condições baseado em features históricas</li>
+                    <li><strong>Digital Twin:</strong> Representação virtual sincronizada com dados reais</li>
+                    <li><strong>RUL (Remaining Useful Life):</strong> Estimativa de vida útil residual</li>
+                </ul>
+                <div class="highlight">
+                    <strong>Resultado:</strong> Redução de 30-50% em custos de manutenção e 70% menos paradas não planejadas.
+                </div>
+            </div>
+
+            <!-- Fluxo de Processamento -->
+            <div class="section full-width">
+                <h2>Fluxo: Do Sinal Bruto ao Diagnóstico</h2>
+                <div class="flow-diagram">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Coleta</div>
+                        <div class="step-desc">Sensor de vibração</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Tratamento</div>
+                        <div class="step-desc">Filtragem, normalização</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Análise</div>
+                        <div class="step-desc">FFT, Features</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Diagnóstico</div>
+                        <div class="step-desc">IA/ML, Alertas</div>
+                    </div>
+                    <div class="arrow">→</div>
+                    <div class="flow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Ação</div>
+                        <div class="step-desc">Manutenção preditiva</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DataOps Industrial -->
+            <div class="section full-width">
+                <h2>Tomada de Decisão Baseada em Dados (DataOps Industrial)</h2>
+                <p>O processamento de sinais de vibração se integra ao ecossistema de Indústria 4.0:</p>
+                <ul>
+                    <li><strong>Dashboard em tempo real:</strong> Visualização de features e alertas</li>
+                    <li><strong>Integração com sistemas:</strong> CMMS, ERP, MES para workflow automatizado</li>
+                    <li><strong>Análise histórica:</strong> Tendências e padrões de degradação</li>
+                    <li><strong>Otimização contínua:</strong> Ajuste de thresholds e modelos baseado em feedback</li>
+                </ul>
+                <div class="highlight">
+                    <strong>Transformação Digital:</strong> De manutenção reativa para manutenção preditiva baseada em dados, 
+                    reduzindo custos operacionais e aumentando a disponibilidade de equipamentos.
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>AC2 - Processamento de Sinais | CP801TIN1 | Indústria 4.0</p>
+            <p>Análise de Vibração de Rolamentos — Do Dado ao Diagnóstico</p>
+        </div>
+    </div>
+</body>
+</html>
+
